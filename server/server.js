@@ -1,7 +1,9 @@
 const http = require('http')
 
 const myserver = http.createServer((req,res)=>{
-  console.log(req.headers);
+  console.log(req.headers
+    
+  );
   res.end("fello from server");
 });
 
