@@ -4,6 +4,8 @@ const app = express();
 
 const PORT = 3000;
 
+app.use(express.urlencoded({extended: false}))
+
 app.get('/api/users',(req,res)=>{
   res.json(users)
 })
@@ -26,19 +28,53 @@ app.get("/api/users/:id", (req, res) => {
 //creating the new user
 
 app.post("/api/users", (req,res)=>{
-  res.status({status:pending});
+  const body = req.body;
+  console.log("body: ", body)
+  res.status({status: "pending"});
 })
 
 
 //editing the user
 app.patch("/api/users/:id", (req,res)=>{
-  res.status({status:pending});
+  
+  const id = Number(req.params.id);
+
+  const user = users.find((user)=> user.id === id );
+
+  if(!user)
+  {
+    return res.status(404).json({
+      message:"user not found successfully"
+    });
+  }
+
+  Object.assign(user, req.body);
+
+  return res.json({
+    message:"user updated successfully",
+    user
+  })
 })
 
 
-app.delete("/api/users/:id", (req,res)=>{
-  res.status({status:pending});
-})
+app.delete("/api/users/:id", (req, res) => {
+
+  const id = Number(req.params.id);
+
+  const index = users.findIndex(user => user.id === id);
+
+  if (index === -1) {
+      return res.status(404).json({
+          message: "User not found"
+      });
+  }
+
+  users.splice(index, 1);
+
+  return res.json({
+      message: "User deleted successfully"
+  });
+});
 
 
 
