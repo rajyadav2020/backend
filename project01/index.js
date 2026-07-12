@@ -1,9 +1,15 @@
 const express = require('express');
 const users = require("./MOCK_DATA.json")
 const app = express();
+const mongoose = require('mongoose')
 const fs = require('fs')
+require("dotenv").config();
 
 const PORT = 3000;
+
+mongoose
+.connect(process.env.MONGO_URI)
+.then(()=> console.log("mongodb connnected") )
 
 app.use(express.urlencoded({extended: false}))
 //middleware plugin
